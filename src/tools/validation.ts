@@ -12,18 +12,24 @@ export function lenientString() {
 }
 
 /**
- * Lenient optional number: uses z.coerce for string-to-number conversion,
+ * Lenient optional number: accepts finite numbers and non-empty numeric strings,
  * falls back to undefined on invalid input instead of throwing a validation error.
  */
+function numericInput(value: unknown): unknown {
+  if (typeof value === "number") return value;
+  if (typeof value === "string" && value.trim() !== "") return Number(value);
+  return undefined;
+}
+
 export function lenientOptionalNumber() {
-  return z.coerce.number().optional().catch(undefined);
+  return z.preprocess(numericInput, z.number().finite().optional()).catch(undefined);
 }
 
 /**
  * Lenient optional positive number: same as lenientOptionalNumber but requires min(1).
  */
 export function lenientOptionalPositiveNumber() {
-  return z.coerce.number().min(1).optional().catch(undefined);
+  return z.preprocess(numericInput, z.number().finite().min(1).optional()).catch(undefined);
 }
 
 /**
