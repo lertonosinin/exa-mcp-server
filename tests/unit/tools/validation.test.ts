@@ -57,6 +57,16 @@ describe("validation helpers", () => {
       ["non-numeric string", "ten"],
       ["object", { foo: 1 }],
       ["array", [1, 2]],
+      ["null", null],
+      ["empty string", ""],
+      ["whitespace", "  "],
+      ["false", false],
+      ["true", true],
+      ["empty array", []],
+      ["singleton array", [1]],
+      ["infinity", Infinity],
+      ["negative infinity", -Infinity],
+      ["infinity string", "Infinity"],
     ])("falls back to undefined on %s", (_, input) => {
       const parsed = schema.safeParse(input);
       expect(parsed.success).toBe(true);
@@ -83,6 +93,10 @@ describe("validation helpers", () => {
       ["zero (silently drops to undefined)", 0],
       ["negative (silently drops to undefined)", -3],
       ["non-numeric string", "five"],
+      ["boolean", true],
+      ["singleton array", [5]],
+      ["infinity", Infinity],
+      ["null", null],
     ])("%s -> undefined", (_, input) => {
       const parsed = schema.safeParse(input);
       expect(parsed.success).toBe(true);

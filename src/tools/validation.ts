@@ -12,18 +12,27 @@ export function lenientString() {
 }
 
 /**
- * Lenient optional number: uses z.coerce for string-to-number conversion,
+ * Lenient optional number: accepts numbers and non-blank numeric strings,
  * falls back to undefined on invalid input instead of throwing a validation error.
  */
 export function lenientOptionalNumber() {
-  return z.coerce.number().optional().catch(undefined);
+  return z.preprocess(optionalNumberInput, z.number().finite().optional()).catch(undefined);
+}
+
+function optionalNumberInput(value: unknown): unknown {
+  if (typeof value === 'string') {
+    return value.trim() === '' ? undefined : Number(value);
+  }
+  // Number(null), Number(false), Number([]), and Number([1]) silently invent
+  // numeric settings. In particular, a false/empty maxAgeHours forces a crawl.
+  return typeof value === 'number' ? value : undefined;
 }
 
 /**
  * Lenient optional positive number: same as lenientOptionalNumber but requires min(1).
  */
 export function lenientOptionalPositiveNumber() {
-  return z.coerce.number().min(1).optional().catch(undefined);
+  return z.preprocess(optionalNumberInput, z.number().finite().min(1).optional()).catch(undefined);
 }
 
 /**

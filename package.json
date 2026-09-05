@@ -49,12 +49,11 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",
-    "agnost": "^0.1.11",
+    "agnost": "^0.2.1",
     "axios": "^1.13.6",
     "exa-js": "^2.8.0",
     "jose": "^6.2.2",
     "mcp-handler": "^1.0.4",
-    "whoami": "^0.0.3",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -65,7 +64,8 @@
     "esbuild": "^0.25.12",
     "tsx": "^4.7.0",
     "typescript": "^5.9.3",
-    "vercel": "^37.0.0",
+    "vercel": "^37.14.0",
+    "vite": "^6.4.3",
     "vitest": "4.1.5"
   },
   "engines": {
